@@ -1,10 +1,9 @@
 steps:
-  # Clone the repo
-#  - name: 'gcr.io/cloud-builders/git'
-#    id: 'clone'
-#    args: ['clone','https://github.com/petr-hanzl/Aida']
+  # Get the submodules
+  - name: 'gcr.io/cloud-builders/git'
+    id: 'submodule-update'
+    args: ['submodule','update', '--init', '--update']
 
-  # setup go path
   - name: 'gcr.io/cloud-builders/go'
     args: [ 'get', '-d', './...' ]
     env: [ 'GOPATH=/gopath' ]
