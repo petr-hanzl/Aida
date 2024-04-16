@@ -5,3 +5,5 @@ steps:
     args:
       - 'test ./...'
   #- name: 'ubuntu'
+options:
+  logging: CLOUD_LOGGING_ONLY
