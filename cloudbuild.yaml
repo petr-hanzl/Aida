@@ -4,13 +4,13 @@ steps:
     id: 'git submodule update'
     args: ['submodule','update', '--init', '--recursive']
 
-  - name: 'bash'
-    id: 'make'
-    script: |
-      #!/usr/bin/env bash
-      make
-  - name: 'ubuntu'
-    script: make
+#  - name: 'bash'
+#    id: 'make'
+#    script: |
+#      #!/usr/bin/env bash
+#      make
+#  - name: 'ubuntu'
+#    script: make
 
   - name: 'gcr.io/cloud-builders/go'
     args: [ 'get', '-d', './...' ]
@@ -25,12 +25,17 @@ steps:
 #    volumes:
 #      - name: 'go'
 #        path: '/gopath'
-
+  - name: 'gcr.io/cloud-builders/go'
+    id: 'go build ./...'
+    args: ['build','./...']
+    env: [ 'GOPATH=/gopath' ]
+    volumes:
+      - name: 'go'
+        path: '/gopath'
 
   - name: 'gcr.io/cloud-builders/go'
-    id: 'test'
+    id: 'go test ./...'
     args: ['test','./...']
-#    dir: 'Aida'
     env: [ 'GOPATH=/gopath' ]
     volumes:
       - name: 'go'
