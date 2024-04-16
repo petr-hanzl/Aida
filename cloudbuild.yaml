@@ -1,7 +1,7 @@
 steps:
   # Get the submodules
   - name: 'gcr.io/cloud-builders/git'
-    id: 'submodule-update'
+    id: 'git submodule update'
     args: ['submodule','update', '--init', '--recursive']
 
   - name: 'gcr.io/cloud-builders/go'
@@ -11,12 +11,12 @@ steps:
       - name: 'go'
         path: '/gopath'
 
-  - name: 'gcr.io/cloud-builders/gcloud'
-    args: [ 'app', 'deploy' ]
-    env: [ 'GOPATH=/gopath' ]
-    volumes:
-      - name: 'go'
-        path: '/gopath'
+#  - name: 'gcr.io/cloud-builders/gcloud'
+#    args: [ 'app', 'deploy' ]
+#    env: [ 'GOPATH=/gopath' ]
+#    volumes:
+#      - name: 'go'
+#        path: '/gopath'
 
 
   - name: 'gcr.io/cloud-builders/go'
