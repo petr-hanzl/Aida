@@ -4,12 +4,17 @@ steps:
     id: 'clone'
     args: ['clone','https://github.com/petr-hanzl/Aida']
 
+
   - name: 'gcr.io/cloud-builders/go'
     id: 'test'
     waitFor:
       - 'clone'
     args: ['test','./...']
     dir: 'Aida'
+    env: [ 'GOPATH=/gopath' ]
+    volumes:
+      - name: 'go'
+        path: '/gopath'
 
 #  # Build the image
 #  - name: 'gcr.io/cloud-builders/docker'
