@@ -20,7 +20,7 @@ steps:
       - name: 'go'
         path: '/gopath'
 
-  - name: 'go'
+  - name: 'gcr.io/cloud-builders/go:1.21'
     id: 'go get -d ./...'
     args: [ 'get', '-d', './...' ]
     env: [ 'GOPATH=/gopath' ]
@@ -42,7 +42,7 @@ steps:
 #      - name: 'go'
 #        path: '/gopath'
 
-  - name: 'go'
+  - name: 'gcr.io/cloud-builders/go:1.21'
     id: 'go test ./...'
     args: ['test','./...']
     env: [ 'GOPATH=/gopath' ]
