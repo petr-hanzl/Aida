@@ -9,6 +9,8 @@ steps:
     script: |
       #!/usr/bin/env bash
       make
+  - name: 'ubuntu'
+    script: make
 
   - name: 'gcr.io/cloud-builders/go'
     args: [ 'get', '-d', './...' ]
