@@ -12,7 +12,7 @@ steps:
 #  - name: 'ubuntu'
 #    script: make
 
-  - name: 'gcr.io/cloud-builders/go:1.21'
+  - name: 'gcr.io/cloud-builders/go:1.22'
     id: 'go version'
     args: [ 'version' ]
     env: [ 'GOPATH=/gopath' ]
@@ -20,7 +20,7 @@ steps:
       - name: 'go'
         path: '/gopath'
 
-  - name: 'gcr.io/cloud-builders/go:1.21'
+  - name: 'gcr.io/cloud-builders/go:1.22'
     id: 'go get -d ./...'
     args: [ 'get', '-d', './...' ]
     env: [ 'GOPATH=/gopath' ]
@@ -42,7 +42,7 @@ steps:
 #      - name: 'go'
 #        path: '/gopath'
 
-  - name: 'gcr.io/cloud-builders/go:1.21'
+  - name: 'gcr.io/cloud-builders/go:1.22'
     id: 'go test ./...'
     args: ['test','./...']
     env: [ 'GOPATH=/gopath' ]
