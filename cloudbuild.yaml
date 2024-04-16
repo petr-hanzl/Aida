@@ -34,13 +34,13 @@ steps:
 #    volumes:
 #      - name: 'go'
 #        path: '/gopath'
-  - name: 'gcr.io/cloud-builders/go:1.21'
-    id: 'go build ./...'
-    args: ['build','./...']
-    env: [ 'GOPATH=/gopath' ]
-    volumes:
-      - name: 'go'
-        path: '/gopath'
+#  - name: 'gcr.io/cloud-builders/go:1.21'
+#    id: 'go build ./...'
+#    args: ['build','./...']
+#    env: [ 'GOPATH=/gopath' ]
+#    volumes:
+#      - name: 'go'
+#        path: '/gopath'
 
   - name: 'gcr.io/cloud-builders/go:1.21'
     id: 'go test ./...'
