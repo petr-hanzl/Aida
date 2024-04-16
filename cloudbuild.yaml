@@ -13,6 +13,15 @@ steps:
 #    script: make
 
   - name: 'gcr.io/cloud-builders/go'
+    id: 'go version'
+    args: [ 'version' ]
+    env: [ 'GOPATH=/gopath' ]
+    volumes:
+      - name: 'go'
+        path: '/gopath'
+
+  - name: 'gcr.io/cloud-builders/go'
+    id: 'go get -d ./...'
     args: [ 'get', '-d', './...' ]
     env: [ 'GOPATH=/gopath' ]
     volumes:
