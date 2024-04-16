@@ -1,9 +1,40 @@
 steps:
-  #- name: 'gcr.io/cloud-builders/git'
-    # todo git clone
+  # Clone the repo
+  - name: 'gcr.io/cloud-builders/git'
+    id: 'clone'
+    args: ['clone','https://github.com/petr-hanzl/Aida']
+
   - name: 'gcr.io/cloud-builders/go'
-    args:
-      - 'test ./...'
-  #- name: 'ubuntu'
+    id: 'test'
+    waitFor:
+      - 'clone'
+    args: ['test','./...']
+    dir: 'Aida'
+
+#  # Build the image
+#  - name: 'gcr.io/cloud-builders/docker'
+#    args: ['build','-t','gcr.io/${_PROJECT}/${_CONTAINERNAME}:${_VERSION}','.']
+#
+#  #Push the image
+#  - name: 'gcr.io/cloud-builders/docker'
+#    args: ['push','gcr.io/${_PROJECT}/${_CONTAINERNAME}:${_VERSION}']
+#
+#
+#
+#substitutions:
+#  #GCP Specific configuration. Please DON'T change anything
+#  _PROJECT: learn-gcp-with-mahesh
+#
+#  #Repository Specific configuration. DevOps can change this settings
+#  _DEPLOYMENTNAME: hello-world-service
+#  _CONTAINERNAME: hello-world-service
+#  _REPO_NAME: cicd-service
+#
+#  # Developers ONLY change
+#  _VERSION: v1.0
+#
+
 options:
   logging: CLOUD_LOGGING_ONLY
+
+
