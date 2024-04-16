@@ -4,6 +4,12 @@ steps:
     id: 'git submodule update'
     args: ['submodule','update', '--init', '--recursive']
 
+  - name: 'bash'
+    id: 'make'
+    script: |
+      #!/usr/bin/env bash
+      make
+
   - name: 'gcr.io/cloud-builders/go'
     args: [ 'get', '-d', './...' ]
     env: [ 'GOPATH=/gopath' ]
