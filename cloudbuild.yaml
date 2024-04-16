@@ -1,8 +1,8 @@
 steps:
   # Clone the repo
-  - name: 'gcr.io/cloud-builders/git'
-    id: 'clone'
-    args: ['clone','https://github.com/petr-hanzl/Aida']
+#  - name: 'gcr.io/cloud-builders/git'
+#    id: 'clone'
+#    args: ['clone','https://github.com/petr-hanzl/Aida']
 
   # setup go path
   - name: 'gcr.io/cloud-builders/go'
@@ -22,10 +22,8 @@ steps:
 
   - name: 'gcr.io/cloud-builders/go'
     id: 'test'
-    waitFor:
-      - 'clone'
     args: ['test','./...']
-    dir: 'Aida'
+#    dir: 'Aida'
     env: [ 'GOPATH=/gopath' ]
     volumes:
       - name: 'go'
