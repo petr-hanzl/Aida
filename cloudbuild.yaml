@@ -2,7 +2,7 @@ steps:
   # Get the submodules
   - name: 'gcr.io/cloud-builders/git'
     id: 'submodule-update'
-    args: ['submodule','update', '--init', '--update']
+    args: ['submodule','update', '--init', '--recursive']
 
   - name: 'gcr.io/cloud-builders/go'
     args: [ 'get', '-d', './...' ]
