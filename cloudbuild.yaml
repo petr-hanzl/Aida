@@ -1,0 +1,7 @@
+steps:
+  #- name: 'gcr.io/cloud-builders/git'
+    # todo git clone
+  - name: 'gcr.io/cloud-builders/go'
+    args:
+      - 'test ./...'
+  #- name: 'ubuntu'
