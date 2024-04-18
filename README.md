@@ -4,7 +4,11 @@ Aida is a block-processing testing infrastructure for EVM-compatible chains.
 
 ## Building the source
 
-Building `aida` requires both a Go (version 1.21 or later), a C compiler, and bazel 5.2.3. Once the dependencies are installed, run
+Building `aida` requires Go (version 1.21 or later). Since this project requires a build of 
+[Carmen](https://github.com/Fantom-foundation/Carmen) and [Tosca](https://github.com/Fantom-foundation/Tosca), 
+you need a C++ compiler and Bazel, or Docker installed. For better understanding head over to the projects readme files.
+
+Once the dependencies are installed, run
 
 ```shell
 make
