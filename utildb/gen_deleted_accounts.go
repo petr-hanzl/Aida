@@ -87,7 +87,8 @@ func genDeletedAccountsTask(
 	var err error
 	ss := substatecontext.NewTxContext(tx.Substate)
 
-	statedb, err = state.MakeOffTheChainStateDB(ss.GetInputState(), tx.Block, state.NewChainConduit(cfg.ChainID == utils.EthereumChainID, utils.GetChainConfig(cfg.ChainID)))
+	conduit := state.NewChainConduit(cfg.ChainID == utils.EthereumChainID, utils.GetChainConfig(cfg.ChainID))
+	statedb, err = state.MakeOffTheChainStateDB(ss.GetInputState(), tx.Block, conduit, nil, nil)
 	if err != nil {
 		return err
 	}

@@ -19,25 +19,32 @@ package state
 import (
 	"fmt"
 	"math/big"
+	"sync"
 
 	"github.com/Fantom-foundation/Aida/txcontext"
 	substatecontext "github.com/Fantom-foundation/Aida/txcontext/substate"
+	cc "github.com/Fantom-foundation/Carmen/go/common"
 	substate "github.com/Fantom-foundation/Substate"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/types"
 )
 
-func MakeEmptyGethInMemoryStateDB(variant string) (StateDB, error) {
+func MakeEmptyGethInMemoryStateDB(variant string, cacheSize int) (StateDB, error) {
 	if variant != "" {
 		return nil, fmt.Errorf("unknown variant: %v", variant)
 	}
-	return MakeInMemoryStateDB(substatecontext.NewWorldState(make(substate.SubstateAlloc)), 0), nil
+	return MakeInMemoryStateDB(substatecontext.NewWorldState(make(substate.SubstateAlloc)), 0, nil, nil), nil
 }
 
 // MakeInMemoryStateDB creates a StateDB instance reflecting the state
 // captured by the provided Substate allocation.
-func MakeInMemoryStateDB(ws txcontext.WorldState, block uint64) StateDB {
-	return &inMemoryStateDB{ws: ws, state: makeSnapshot(nil, 0), blockNum: block}
+func MakeInMemoryStateDB(ws txcontext.WorldState, block uint64, cache cc.Cache[CodeKey, common.Hash], mutex *sync.Mutex) StateDB {
+	return &inMemoryStateDB{ws: ws, state: makeSnapshot(nil, 0), blockNum: block, codeCache: cache, mutex: mutex}
+}
+
+type CodeKey struct {
+	addr common.Address
+	code string
 }
 
 // inMemoryStateDB implements the interface of a state.StateDB and can be
@@ -47,6 +54,8 @@ type inMemoryStateDB struct {
 	state            *snapshot
 	snapshot_counter int
 	blockNum         uint64
+	mutex            *sync.Mutex
+	codeCache        cc.Cache[CodeKey, common.Hash]
 }
 
 type slot struct {
@@ -151,9 +160,11 @@ func (db *inMemoryStateDB) GetCodeHash(addr common.Address) common.Hash {
 	if !db.Exist(addr) {
 		return common.Hash{}
 	}
-	return getHash(addr, db.GetCode(addr))
+	code := db.GetCode(addr)
+	db.mutex.Lock()
+	defer db.mutex.Unlock()
+	return getHash(db.codeCache, addr, code, db.mutex)
 }
-
 func (db *inMemoryStateDB) GetCode(addr common.Address) []byte {
 	for state := db.state; state != nil; state = state.parent {
 		val, exists := state.codes[addr]
